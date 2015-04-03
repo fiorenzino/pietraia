@@ -1,19 +1,30 @@
 package org.angcms.api.service;
 
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.net.URLDecoder;
+import java.util.List;
+
+import javax.persistence.NoResultException;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.OPTIONS;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+
 import org.angcms.api.repository.Repository;
 import org.angcms.api.repository.Search;
 import org.angcms.api.util.RepositoryUtils;
 import org.jboss.logging.Logger;
-
-import javax.persistence.NoResultException;
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
-import javax.ws.rs.core.Response.Status;
-import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.net.URLDecoder;
-import java.util.Arrays;
-import java.util.List;
 
 public abstract class RsRepositoryService<T> implements Serializable
 {
@@ -268,6 +279,7 @@ public abstract class RsRepositoryService<T> implements Serializable
          // wrapper.setList(list);
          // wrapper.setListSize(listSize);
          // wrapper.setStartRow(startRow);
+         postList(list);
          return Response.status(Status.OK).entity(list)
                   .header("Access-Control-Expose-Headers", "startRow, pageSize, listSize, startRow")
                   .header("startRow", startRow)
@@ -282,6 +294,10 @@ public abstract class RsRepositoryService<T> implements Serializable
          return Response.status(Status.INTERNAL_SERVER_ERROR)
                   .entity("Error reading resource list").build();
       }
+   }
+
+   protected void postList(List<T> list)
+   {
    }
 
    protected Search<T> getSearch(UriInfo ui, String orderBy)

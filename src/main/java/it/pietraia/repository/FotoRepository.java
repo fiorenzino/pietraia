@@ -2,6 +2,8 @@ package it.pietraia.repository;
 
 import it.pietraia.model.Foto;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -44,14 +46,19 @@ public class FotoRepository extends BaseRepository<Foto>
    }
 
    @SuppressWarnings("unchecked")
-   public List<Foto> getListByForeignKey(Long fk, String foreingKeyColumnName)
+   public List<Foto> getListByForeignKeys(Collection<Long> fks, String foreingKeyColumnName)
    {
+      if (fks == null || fks.size() == 0)
+      {
+         return new ArrayList<Foto>();
+      }
       try
       {
          return getEm()
-                  .createNativeQuery("select * from " + Foto.TABLE_NAME + " where " + foreingKeyColumnName + " = :fk ",
+                  .createNativeQuery(
+                           "select * from " + Foto.TABLE_NAME + " where " + foreingKeyColumnName + " in ( :fk )",
                            Foto.class)
-                  .setParameter("fk", fk).getResultList();
+                  .setParameter("fks", fks).getResultList();
       }
       catch (Exception e)
       {

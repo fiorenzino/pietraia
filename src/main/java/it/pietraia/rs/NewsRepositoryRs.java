@@ -6,6 +6,11 @@ import it.pietraia.model.News;
 import it.pietraia.repository.FotoRepository;
 import it.pietraia.repository.NewsRepository;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -53,7 +58,24 @@ public class NewsRepositoryRs extends RsRepositoryService<News>
       {
          return;
       }
-      t.setImmagini(fotoRepository.getListByForeignKey(t.getId(), Foto.NEWS_FK));
+      t.setImmagini(fotoRepository.getListByForeignKeys(Arrays.asList(t.getId()), Foto.NEWS_FK));
    }
 
+   @Override
+   protected void postList(List<News> list)
+   {
+      if (list == null || list.size() == 0)
+      {
+         return;
+      }
+      Map<Long, News> map = new HashMap<Long, News>();
+      for (News n : list)
+      {
+         map.put(n.getId(), n);
+      }
+      for (Foto f : fotoRepository.getListByForeignKeys(map.keySet(), Foto.NEWS_FK))
+      {
+         map.get(f.getId_news()).getImmagini().add(f);
+      }
+   }
 }

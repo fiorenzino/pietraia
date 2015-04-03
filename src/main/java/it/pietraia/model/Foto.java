@@ -14,6 +14,7 @@ public class Foto implements Serializable
    public static final String TABLE_NAME = "foto";
 
    public static final String NEWS_FK = "id_news";
+   public static final String SCULTURE_FK = "id_scultura";
 
    private Long id;
    private String nome;

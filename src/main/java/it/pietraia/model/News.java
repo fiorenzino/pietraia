@@ -2,7 +2,10 @@ package it.pietraia.model;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by fiorenzo on 18/03/15.
@@ -22,6 +25,7 @@ public class News implements Serializable
    private Integer data;
    private String testo;
    private Integer tipo;
+   private List<Foto> immagini;
 
    public News()
    {
@@ -87,6 +91,21 @@ public class News implements Serializable
    public void setOggetto(String oggetto)
    {
       this.oggetto = oggetto;
+   }
+
+   @Transient
+   public List<Foto> getImmagini()
+   {
+      if (immagini == null)
+      {
+         immagini = new ArrayList<Foto>();
+      }
+      return immagini;
+   }
+
+   public void setImmagini(List<Foto> immagini)
+   {
+      this.immagini = immagini;
    }
 
 }

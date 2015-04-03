@@ -1,11 +1,14 @@
 package it.pietraia.repository;
 
 import it.pietraia.model.Foto;
-import org.angcms.api.repository.Search;
+
+import java.util.List;
+import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import java.util.Map;
+
+import org.angcms.api.repository.Search;
 
 @Stateless
 @LocalBean
@@ -25,7 +28,7 @@ public class FotoRepository extends BaseRepository<Foto>
          params.put("ID", search.getObj().getId());
          separator = " and ";
       }
-      //nome
+      // nome
       if (search.getObj().getNome() != null && !search.getObj().getNome().isEmpty())
       {
          sb.append(separator).append(" upper ( ").append(alias).append(".nome ) like :NOME ");
@@ -38,6 +41,23 @@ public class FotoRepository extends BaseRepository<Foto>
    protected String getDefaultOrderBy()
    {
       return "id desc";
+   }
+
+   @SuppressWarnings("unchecked")
+   public List<Foto> getListByForeignKey(Long fk, String foreingKeyColumnName)
+   {
+      try
+      {
+         return getEm()
+                  .createNativeQuery("select * from " + Foto.TABLE_NAME + " where " + foreingKeyColumnName + " = :fk ",
+                           Foto.class)
+                  .setParameter("fk", fk).getResultList();
+      }
+      catch (Exception e)
+      {
+         logger.error(e.getMessage(), e);
+         return null;
+      }
    }
 
 }

@@ -13,6 +13,8 @@ public class Foto implements Serializable
    private static final long serialVersionUID = 1L;
    public static final String TABLE_NAME = "foto";
 
+   public static final String NEWS_FK = "id_news";
+
    private Long id;
    private String nome;
    private String foto;
@@ -88,6 +90,7 @@ public class Foto implements Serializable
       this.id_scultura = id_scultura;
    }
 
+   @Column(name = NEWS_FK)
    public Integer getId_news()
    {
       return id_news;

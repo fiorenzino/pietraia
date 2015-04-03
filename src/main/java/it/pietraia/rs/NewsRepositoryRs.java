@@ -1,9 +1,10 @@
 package it.pietraia.rs;
 
 import it.pietraia.management.AppConstants;
+import it.pietraia.model.Foto;
 import it.pietraia.model.News;
+import it.pietraia.repository.FotoRepository;
 import it.pietraia.repository.NewsRepository;
-import org.angcms.api.service.RsRepositoryService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -11,6 +12,8 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import org.angcms.api.service.RsRepositoryService;
 
 @Path(AppConstants.NEWS_PATH)
 @Stateless
@@ -23,6 +26,9 @@ public class NewsRepositoryRs extends RsRepositoryService<News>
 
    @Inject
    NewsRepository newsRepository;
+
+   @Inject
+   FotoRepository fotoRepository;
 
    public NewsRepositoryRs()
    {
@@ -38,6 +44,16 @@ public class NewsRepositoryRs extends RsRepositoryService<News>
    protected void prePersist(News news) throws Exception
    {
 
+   }
+
+   @Override
+   protected void postFetch(News t)
+   {
+      if (t == null)
+      {
+         return;
+      }
+      t.setImmagini(fotoRepository.getListByForeignKey(t.getId(), Foto.NEWS_FK));
    }
 
 }

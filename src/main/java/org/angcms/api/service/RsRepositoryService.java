@@ -114,6 +114,7 @@ public abstract class RsRepositoryService<T> implements Serializable
          }
          else
          {
+            postFetch(t);
             return Response.status(Status.OK).entity(t).build();
          }
       }
@@ -134,6 +135,10 @@ public abstract class RsRepositoryService<T> implements Serializable
    /*
     * U
     */
+
+   protected void postFetch(T t)
+   {
+   }
 
    protected void preUpdate(T object) throws Exception
    {
@@ -259,10 +264,10 @@ public abstract class RsRepositoryService<T> implements Serializable
          Search<T> search = getSearch(ui, orderBy);
          int listSize = repository.getListSize(search);
          List<T> list = repository.getList(search, startRow, pageSize);
-         //            PaginatedListWrapper<T> wrapper = new PaginatedListWrapper<>();
-         //            wrapper.setList(list);
-         //            wrapper.setListSize(listSize);
-         //            wrapper.setStartRow(startRow);
+         // PaginatedListWrapper<T> wrapper = new PaginatedListWrapper<>();
+         // wrapper.setList(list);
+         // wrapper.setListSize(listSize);
+         // wrapper.setStartRow(startRow);
          return Response.status(Status.OK).entity(list)
                   .header("Access-Control-Expose-Headers", "startRow, pageSize, listSize, startRow")
                   .header("startRow", startRow)

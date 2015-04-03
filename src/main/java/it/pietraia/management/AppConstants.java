@@ -7,6 +7,7 @@ public class AppConstants extends org.angcms.api.management.AppConstants
    public static final String NEWS_PATH = "/v1/news";
    public static final String SCULTURE_PATH = "/v1/sculture";
    public static final String PAGINE_PATH = "/v1/pagine";
+   public static final String BANNERS_PATH = "/v1/banners";
 
    public static final String ADMIN_ROLE = "Administrator";
 

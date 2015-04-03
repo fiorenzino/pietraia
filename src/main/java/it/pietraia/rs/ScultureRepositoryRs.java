@@ -73,7 +73,7 @@ public class ScultureRepositoryRs extends RsRepositoryService<Scultura>
       }
       for (Foto f : fotoRepository.getListByForeignKeys(map.keySet(), Foto.SCULTURE_FK))
       {
-         map.get(f.getId_news()).getImmagini().add(f);
+         map.get(f.getId_scultura()).getImmagini().add(f);
       }
    }
 }

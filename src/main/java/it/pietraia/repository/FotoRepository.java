@@ -46,7 +46,7 @@ public class FotoRepository extends BaseRepository<Foto>
    }
 
    @SuppressWarnings("unchecked")
-   public List<Foto> getListByForeignKeys(Collection<Long> fks, String foreingKeyColumnName)
+   public List<Foto> getListByForeignKeys(Collection<Integer> fks, String foreingKeyColumnName)
    {
       if (fks == null || fks.size() == 0)
       {
@@ -56,7 +56,7 @@ public class FotoRepository extends BaseRepository<Foto>
       {
          return getEm()
                   .createNativeQuery(
-                           "select * from " + Foto.TABLE_NAME + " where " + foreingKeyColumnName + " in ( :fk )",
+                           "select * from " + Foto.TABLE_NAME + " where " + foreingKeyColumnName + " in ( :fks )",
                            Foto.class)
                   .setParameter("fks", fks).getResultList();
       }

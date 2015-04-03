@@ -58,7 +58,7 @@ public class NewsRepositoryRs extends RsRepositoryService<News>
       {
          return;
       }
-      t.setImmagini(fotoRepository.getListByForeignKeys(Arrays.asList(t.getId()), Foto.NEWS_FK));
+      t.setImmagini(fotoRepository.getListByForeignKeys(Arrays.asList(t.getId().intValue()), Foto.NEWS_FK));
    }
 
    @Override
@@ -68,10 +68,10 @@ public class NewsRepositoryRs extends RsRepositoryService<News>
       {
          return;
       }
-      Map<Long, News> map = new HashMap<Long, News>();
+      Map<Integer, News> map = new HashMap<Integer, News>();
       for (News n : list)
       {
-         map.put(n.getId(), n);
+         map.put(n.getId().intValue(), n);
       }
       for (Foto f : fotoRepository.getListByForeignKeys(map.keySet(), Foto.NEWS_FK))
       {
